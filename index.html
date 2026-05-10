@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Snap — Empaque Monodosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #080c12;
+  --surface: #0e1420;
+  --surface2: #141c2b;
+  --blue: #2563eb;
+  --blue-light: #3b82f6;
+  --blue-glow: rgba(37,99,235,0.15);
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f1f5f9;
+  --muted: #64748b;
+  --muted2: #94a3b8;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(8,12,18,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 60px;
+}
+.logo { font-size: 17px; font-weight: 600; letter-spacing: -0.3px; color: var(--text); text-decoration: none; }
+.logo span { color: var(--blue-light); }
+nav { display: flex; align-items: center; gap: 32px; }
+nav a { font-size: 13px; font-weight: 400; color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+nav a:hover { color: var(--text); }
+.btn-nav {
+  font-size: 13px; font-weight: 500;
+  background: var(--blue); color: #fff;
+  padding: 8px 18px; border-radius: 6px;
+  text-decoration: none; transition: background 0.2s;
+}
+.btn-nav:hover { background: var(--blue-light); }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; width: 100%; max-width: 900px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  color: var(--blue-light);
+  border: 1px solid rgba(59,130,246,0.3);
+  padding: 5px 14px; border-radius: 100px;
+  margin-bottom: 32px;
+  text-transform: uppercase;
+}
+.hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light); }
+.hero h1 {
+  font-size: clamp(42px, 6vw, 78px);
+  font-weight: 700; letter-spacing: -2.5px; line-height: 1.04;
+  color: var(--text); margin: 0 auto 24px;
+}
+.hero h1 em { font-style: normal; color: var(--blue-light); }
+.hero p {
+  font-size: 18px; font-weight: 300; color: var(--muted2);
+  max-width: 500px; margin: 0 auto 48px; line-height: 1.7;
+}
+.hero-ctas { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.btn-primary {
+  font-size: 14px; font-weight: 500;
+  background: var(--blue); color: #fff;
+  padding: 13px 28px; border-radius: 8px;
+  text-decoration: none; transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+.btn-ghost {
+  font-size: 14px; font-weight: 400; color: var(--muted2);
+  padding: 13px 28px; border-radius: 8px;
+  border: 1px solid var(--border2);
+  text-decoration: none; transition: all 0.2s;
+}
+.btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.2); }
+
+/* VIDEO PLACEHOLDER */
+.hero-demo {
+  margin-top: 72px;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.demo-bar {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex; align-items: center; gap: 8px;
+}
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot.r { background: #ff5f57; }
+.dot.y { background: #ffbc2e; }
+.dot.g { background: #28c840; }
+.demo-inner {
+  height: 320px;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 16px;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.02) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.02) 40px);
+}
+.play-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: rgba(37,99,235,0.2);
+  border: 1px solid rgba(59,130,246,0.4);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s;
+}
+.play-btn:hover { background: rgba(37,99,235,0.35); transform: scale(1.05); }
+.play-btn svg { width: 22px; height: 22px; fill: var(--blue-light); margin-left: 3px; }
+.demo-label { font-size: 12px; color: var(--muted); }
+.demo-label strong { color: var(--muted2); font-weight: 500; font-family: monospace; font-size: 11px; }
+
+/* STATS */
+.stats {
+  display: flex; justify-content: center;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.stat {
+  flex: 1; max-width: 300px;
+  padding: 40px 32px; text-align: center;
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-number { font-size: 36px; font-weight: 700; letter-spacing: -1px; color: var(--text); margin-bottom: 6px; }
+.stat-number span { color: var(--blue-light); }
+.stat-label { font-size: 13px; color: var(--muted); }
+
+/* SIZES */
+.section { padding: 96px 48px; max-width: 1100px; margin: 0 auto; }
+.section-tag {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--blue-light); margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+  letter-spacing: -1px; color: var(--text); line-height: 1.1;
+  max-width: 500px; margin-bottom: 16px;
+}
+.section-sub {
+  font-size: 15px; font-weight: 300; color: var(--muted2);
+  max-width: 440px; margin-bottom: 56px; line-height: 1.7;
+}
+.sizes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.size-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  transition: all 0.25s;
+  position: relative; overflow: hidden;
+}
+.size-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--blue), transparent);
+  opacity: 0; transition: opacity 0.25s;
+}
+.size-card:hover { border-color: rgba(59,130,246,0.35); background: var(--surface2); transform: translateY(-2px); }
+.size-card:hover::before { opacity: 1; }
+.size-pill {
+  display: inline-block;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.8px;
+  background: var(--blue-glow); color: var(--blue-light);
+  border: 1px solid rgba(59,130,246,0.2);
+  padding: 3px 10px; border-radius: 100px;
+  margin-bottom: 20px; text-transform: uppercase;
+}
+.size-dim { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); margin-bottom: 4px; }
+.size-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+.size-vol { font-size: 42px; font-weight: 700; letter-spacing: -1px; color: var(--blue-light); line-height: 1; }
+.size-vol-unit { font-size: 16px; font-weight: 400; color: var(--muted2); }
+.size-desc { font-size: 13px; color: var(--muted); margin-top: 12px; line-height: 1.55; }
+
+/* BENEFITS */
+.benefits-section {
+  padding: 96px 48px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.benefits-inner { max-width: 1100px; margin: 0 auto; }
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px; margin-top: 56px;
+}
+.benefit {
+  padding: 28px 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+}
+.benefit-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--blue-glow);
+  border: 1px solid rgba(59,130,246,0.15);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px; font-size: 16px; color: var(--blue-light);
+}
+.benefit h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+.benefit p { font-size: 13px; color: var(--muted2); line-height: 1.6; font-weight: 300; }
+
+/* CTA */
+.cta-section { padding: 120px 48px; text-align: center; max-width: 640px; margin: 0 auto; }
+.cta-section h2 {
+  font-size: clamp(30px, 4vw, 46px); font-weight: 700;
+  letter-spacing: -1.5px; color: var(--text); line-height: 1.1; margin-bottom: 20px;
+}
+.cta-section p { font-size: 16px; color: var(--muted2); font-weight: 300; margin-bottom: 40px; line-height: 1.7; }
+.cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg);
+}
+.footer-logo { font-size: 14px; font-weight: 500; color: var(--muted); }
+.footer-logo span { color: var(--blue-light); }
+.footer-copy { font-size: 12px; color: var(--muted); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; }
+.footer-links a:hover { color: var(--muted2); }
+
+@media (max-width: 768px) {
+  header { padding: 0 24px; }
+  nav { display: none; }
+  .section, .benefits-section { padding: 64px 24px; }
+  .stats { flex-direction: column; }
+  .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 24px; }
+  footer { flex-direction: column; gap: 12px; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="#" class="logo">Simple<span>Snap</span></a>
+  <nav>
+    <a href="#sizes">Formatos</a>
+    <a href="#benefits">Beneficios</a>
+    <a href="#contact">Contacto</a>
+    <a href="https://wa.me/523327942861?text=Hola%2C%20me%20interesa%20conocer%20más%20sobre%20Simple%20Snap" target="_blank" class="btn-nav">Solicitar muestra</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><div class="hero-badge-dot"></div> Empaque de nueva generación</div>
+    <h1>Una mano.<br><em>Cero derrames.</em><br>Infinitas aplicaciones.</h1>
+    <p>El único sachet monodosis que puedes abrir, dispensar y desechar con una sola mano — sin tijeras, sin manchas, sin desperdicio.</p>
+    <div class="hero-ctas">
+      <a href="https://wa.me/523327942861?text=Hola%2C%20me%20interesa%20solicitar%20una%20muestra%20de%20Simple%20Snap" target="_blank" class="btn-primary">Solicitar muestra</a>
+      <a href="#sizes" class="btn-ghost">Ver formatos →</a>
+    </div>
+
+    <div class="hero-demo">
+      <div class="demo-bar">
+        <div class="dot r"></div>
+        <div class="dot y"></div>
+        <div class="dot g"></div>
+      </div>
+      <div class="demo-inner">
+        <!-- PARA AGREGAR TU VIDEO:
+             1. Crea una carpeta llamada "videos" en tu repo
+             2. Sube tu archivo como "hero.mp4"
+             3. Borra el bloque del placeholder (play-btn y demo-label)
+             4. Descomenta la línea de abajo -->
+        <!-- <video autoplay muted loop playsinline style="width:100%;height:320px;object-fit:cover;display:block;" src="videos/hero.mp4"></video> -->
+        <div class="play-btn">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <p class="demo-label">Tu video va aquí → <strong>videos/hero.mp4</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stats">
+  <div class="stat">
+    <div class="stat-number">4<span>+</span></div>
+    <div class="stat-label">Formatos disponibles</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">1<span>–</span>12 <span>ml</span></div>
+    <div class="stat-label">Rango de volumen</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">1<span> mano</span></div>
+    <div class="stat-label">Abrir y dispensar</div>
+  </div>
+</div>
+
+<div id="sizes">
+  <div class="section">
+    <p class="section-tag">Formatos</p>
+    <h2 class="section-title">El tamaño ideal para cada producto.</h2>
+    <p class="section-sub">De cosméticos a condimentos — nuestros formatos cubren todo el espectro de necesidades monodosis.</p>
+    <div class="sizes-grid">
+      <div class="size-card">
+        <div class="size-pill">Compacto</div>
+        <div class="size-dim">40 × 50 mm</div>
+        <div class="size-sub">Formato más pequeño</div>
+        <div class="size-vol">1 <span class="size-vol-unit">ml</span></div>
+        <p class="size-desc">Ideal para sueros, fragancias y cosméticos ultraconcentrados.</p>
+      </div>
+      <div class="size-card">
+        <div class="size-pill">Estándar</div>
+        <div class="size-dim">40 × 80 mm</div>
+        <div class="size-sub">El más popular</div>
+        <div class="size-vol">3 <span class="size-vol-unit">ml</span></div>
+        <p class="size-desc">Perfecto para lociones, shampoos, condimentos y salsas.</p>
+      </div>
+      <div class="size-card">
+        <div class="size-pill">Mediano</div>
+        <div class="size-dim">50 × 80 mm</div>
+        <div class="size-sub">Capacidad intermedia</div>
+        <div class="size-vol">5 <span class="size-vol-unit">ml</span></div>
+        <p class="size-desc">Ideal para cremas espesas, aderezos y muestras premium.</p>
+      </div>
+      <div class="size-card">
+        <div class="size-pill">Grande</div>
+        <div class="size-dim">60 × 100 mm</div>
+        <div class="size-sub">Máxima capacidad</div>
+        <div class="size-vol">12 <span class="size-vol-unit">ml</span></div>
+        <p class="size-desc">Diseñado para porciones generosas — food service, hospitalidad y uso médico.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="benefits" class="benefits-section">
+  <div class="benefits-inner">
+    <p class="section-tag">Por qué Simple Snap</p>
+    <h2 class="section-title">Diseñado para la conveniencia.</h2>
+    <p class="section-sub">Cada detalle pensado para eliminar la fricción — para la marca y para el consumidor.</p>
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">◈</div>
+        <h3>Operación con una mano</h3>
+        <p>Dobla, abre y exprime con una sola mano. Sin tijeras, sin jalones, sin manchas — perfecto para uso en movimiento.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">⬡</div>
+        <h3>Cero contaminación</h3>
+        <p>Sellado herméticamente hasta el momento de uso. Máxima higiene para alimentos, cosméticos y aplicaciones médicas.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">◎</div>
+        <h3>Dosificación exacta</h3>
+        <p>Volumen de llenado preciso en cada sachet. Reduce el desperdicio y entrega siempre la cantidad correcta.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">✦</div>
+        <h3>Branding personalizado</h3>
+        <p>Superficie total de impresión para tu marca. Acabados premium disponibles para retail y hospitalidad.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">⟁</div>
+        <h3>Llenado de alta velocidad</h3>
+        <p>Compatible con líneas de producción automatizadas. Escalable desde corridas de muestreo hasta volúmenes de retail.</p>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">◬</div>
+        <h3>Multi-industria</h3>
+        <p>Cosméticos, alimentos, farmacéutica, hospitalidad. Una sola plataforma para múltiples mercados.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="contact">
+  <div class="cta-section">
+    <h2>¿Listo para verlo en persona?</h2>
+    <p>Solicita tu kit de muestras y descubre cómo Simple Snap puede transformar tu empaque monodosis.</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/523327942861?text=Hola%2C%20me%20interesa%20solicitar%20una%20muestra%20de%20Simple%20Snap" target="_blank" class="btn-primary">📲 Solicitar muestra</a>
+      <a href="https://wa.me/523327942861?text=Hola%2C%20quisiera%20más%20información%20sobre%20Simple%20Snap" target="_blank" class="btn-ghost">Contactar ventas</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Simple<span>Snap</span></div>
+  <div class="footer-copy">© 2026 Simple Snap. Todos los derechos reservados.</div>
+  <div class="footer-links">
+    <a href="https://wa.me/523327942861" target="_blank">WhatsApp</a>
+    <a href="#sizes">Formatos</a>
+    <a href="#benefits">Beneficios</a>
+  </div>
+</footer>
+
+</body>
+</html>
